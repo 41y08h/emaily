@@ -5,7 +5,10 @@ const cookieSession = require("cookie-session");
 const passport = require("passport");
 const path = require("path");
 require("./models/User");
+require("./models/Survey");
 require("./services/passport");
+
+const loginDevUser = require("./middlewares/loginDevUser");
 
 mongoose.connect(
   keys.mongoURI,
@@ -17,6 +20,10 @@ mongoose.connect(
 );
 
 const app = express();
+
+if (process.env.NODE_ENV !== "production") {
+  app.use(loginDevUser);
+}
 
 app.use(express.json());
 app.use(
@@ -30,6 +37,7 @@ app.use(passport.session());
 
 require("./routes/auth")(app);
 require("./routes/billing")(app);
+require("./routes/survey")(app);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
