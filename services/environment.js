@@ -28,7 +28,7 @@ function development(app) {
 
 /** Environment based config for production */
 function production(app) {
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV === "production") {
     const root = require("path").join(__dirname, "../client", "build");
     app.use(express.static(root));
     app.get("*", (req, res) => {
