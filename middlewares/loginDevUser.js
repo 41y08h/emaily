@@ -1,8 +1,7 @@
-const mongoose = require("mongoose");
-const User = mongoose.model("users");
+const User = require("../models/User");
 
+/** Express middleware for logging in a sample user in development */
 module.exports = async (req, res, next) => {
-  const users = await User.find({});
-  req.user = users[0];
+  req.user = await User.findOne({});
   next();
 };

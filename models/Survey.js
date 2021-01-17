@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const RecipientSchema = require("./Recipient");
+const RecipientSchema = require("./schemas/Recipient");
 
 const surveySchema = new Schema({
   title: String,
@@ -18,6 +18,10 @@ const surveySchema = new Schema({
   _user: { type: Schema.Types.ObjectId, ref: "User" },
   dateSent: Date,
   lastResponded: Date,
+  isDraft: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-mongoose.model("surveys", surveySchema);
+module.exports = mongoose.model("surveys", surveySchema);

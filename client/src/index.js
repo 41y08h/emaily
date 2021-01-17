@@ -1,25 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/App";
 import reportWebVitals from "./reportWebVitals";
-import "materialize-css/dist/css/materialize.min.css";
-
-import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
-import reduxThunk from "redux-thunk";
-import reducers from "./reducers";
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(
-  reducers,
-  {},
-  composeEnhancers(applyMiddleware(reduxThunk))
-);
+import store from "./store";
+import Routes from "./components/Routes";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "bootstrap-icons/font/fonts/bootstrap-icons.woff";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Routes />
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

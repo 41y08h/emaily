@@ -1,19 +1,20 @@
 import React from "react";
 import StripeCheckout from "react-stripe-checkout";
-import { handleToken } from "../actions";
 import { useDispatch } from "react-redux";
+import stripePayment from "../store/reducers/billing";
 
-export default function Payments() {
+export default function PaymentButton({ children }) {
   const dispatch = useDispatch();
+
   return (
     <StripeCheckout
       name="Emaily"
-      description="$5 for 5 credits"
+      description="Rs.500 for 5 credits"
       amount={500}
-      token={(token) => dispatch(handleToken(token))}
+      token={(token) => dispatch(stripePayment(token))}
       stripeKey={process.env.REACT_APP_STRIPE_KEY}
     >
-      <button className="btn red z-depth-1">Add credits</button>
+      {children}
     </StripeCheckout>
   );
 }

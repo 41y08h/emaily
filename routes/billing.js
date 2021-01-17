@@ -1,19 +1,7 @@
-const keys = require("../config/keys");
-const stripe = require("stripe")(keys.stripeSecretKey);
+const router = require("express").Router();
 const isLoggedIn = require("../middlewares/isLoggedIn");
+const stripeHandler = require("../handlers/billing/stripe");
 
-module.exports = (app) => {
-  app.post("/api/stripe", isLoggedIn, async (req, res) => {
-    const charge = await stripe.charges.create({
-      amount: 500,
-      currency: "inr",
-      description: "500 bucks for 5 credits",
-      source: req.body.id,
-    });
+router.post("/stripe", isLoggedIn, stripeHandler);
 
-    req.user.credits += 5;
-    const user = await req.user.save();
-
-    res.send(user);
-  });
-};
+module.exports = router;

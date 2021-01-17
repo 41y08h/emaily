@@ -1,5 +1,4 @@
 node_modules
-dev.js
-db.js
+config/dev.js
 playground.js
 requests.rest

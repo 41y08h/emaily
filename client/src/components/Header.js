@@ -1,48 +1,56 @@
 import React from "react";
+import { Navbar, Button, Nav } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Payments from "./Payments";
+import PaymentButton from "./PaymentButton";
+
+function AuthContent({ currentUser }) {
+  return (
+    <>
+      <Link to="/dashboard" className="nav-link">
+        Dashboard
+      </Link>
+      <Navbar.Text>Credits: {currentUser.credits}</Navbar.Text>
+      <PaymentButton>
+        <Button variant="danger" size="sm" className="mx-3 text-white">
+          Buy Credits
+        </Button>
+      </PaymentButton>
+      <a
+        className="btn btn-secondary btn-sm"
+        role="button"
+        href="/api/auth/logout"
+      >
+        Logout
+      </a>
+    </>
+  );
+}
+
+function PublicContent() {
+  return (
+    <a className="btn btn-primary btn-sm" role="button" href="/api/auth/google">
+      Login with Google
+    </a>
+  );
+}
 
 export default function Header() {
-  const currentUser = useSelector((state) => state.auth);
-
-  function renderContent() {
-    switch (currentUser) {
-      case null:
-        return;
-      case false:
-        return (
-          <li>
-            <a href="/auth/google">👀 Login with Google</a>
-          </li>
-        );
-      default:
-        return (
-          <>
-            <li>
-              <Payments />
-            </li>
-            <li style={{ margin: "0 10px" }}>Credits: {currentUser.credits}</li>
-            <li>
-              <a href="/api/logout">Logout</a>
-            </li>
-          </>
-        );
-    }
-  }
-
+  const currentUser = useSelector((state) => state.auth.item);
   return (
-    <nav className="z-depth-0">
-      <div className="nav-wrapper container">
-        <Link
-          to={currentUser ? "/surveys" : "/"}
-          className="left brand-logo"
-          style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600 }}
-        >
-          Emaily
+    <Navbar bg="light" className="shadow-sm">
+      <div className="container">
+        <Link to="/" className="text-decoration-none">
+          <Navbar.Brand>Emaily</Navbar.Brand>
         </Link>
-        <ul className="right">{renderContent()}</ul>
+        <Navbar.Collapse className="justify-content-end">
+          {currentUser ? (
+            <AuthContent currentUser={currentUser} />
+          ) : (
+            <PublicContent />
+          )}
+        </Navbar.Collapse>
       </div>
-    </nav>
+    </Navbar>
   );
 }
