@@ -1,12 +1,13 @@
 const express = require("express");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
-const path = require("path");
 const router = require("../routes");
 const keys = require("../config/keys");
+const compression = require("compression");
 
 /** Common express app config */
 function common(app) {
+  app.use(compression());
   app.use(express.json());
   app.use(
     cookieSession({
@@ -27,7 +28,7 @@ function development(app) {
 
 /** Environment based config for production */
 function production(app) {
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV !== "production") {
     const root = require("path").join(__dirname, "../client", "build");
     app.use(express.static(root));
     app.get("*", (req, res) => {
