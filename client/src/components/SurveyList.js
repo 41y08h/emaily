@@ -34,7 +34,7 @@ export default function SurveyList() {
 
   useEffect(() => {
     if (survey.loading) fetchData();
-  }, []);
+  }, [survey.loading]);
 
   if (survey.loading) return <p className="text-center mt-5">Loading ...</p>;
   if (survey.error)

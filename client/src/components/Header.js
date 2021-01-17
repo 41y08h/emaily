@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Button, Nav } from "react-bootstrap";
+import { Navbar, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PaymentButton from "./PaymentButton";

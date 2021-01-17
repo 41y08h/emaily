@@ -9,7 +9,7 @@ export default function Authorization({ children }) {
 
   useEffect(() => {
     dispatch(fetchCurrentUser());
-  }, []);
+  }, [dispatch]);
 
   if (auth.loading) return <Loader />;
   return children;
