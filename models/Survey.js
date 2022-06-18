@@ -22,6 +22,7 @@ const surveySchema = new Schema({
     type: Boolean,
     default: false,
   },
+  draftRecipients: String,
 });
 
 module.exports = mongoose.model("surveys", surveySchema);

@@ -1,58 +1,57 @@
-import { createSlice } from "@reduxjs/toolkit";
-import apiCall from "../apiCall";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
-  items: [],
-  loading: true,
+  data: [],
+  status: "idle",
   error: null,
 };
+
+export const fetchSurveyList = createAsyncThunk(
+  "survey/fetchSurveyList",
+  async (props, thunkAPI) => {
+    try {
+      const { data } = await axios.get("/api/survey");
+      return data;
+    } catch ({ response: data }) {
+      return thunkAPI.rejectWithValue(data);
+    }
+  }
+);
+
+export const createSurvey = createAsyncThunk(
+  "survey/createSurvey",
+  async (props, thunkAPI) => {
+    try {
+      const response = await axios.post("/api/survey", props);
+      return response.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
 
 const slice = createSlice({
   name: "survey",
   initialState,
-  reducers: {
-    startFetching(state) {
-      state.loading = true;
+
+  extraReducers: {
+    [fetchSurveyList.pending]: (state, action) => {
+      state.status = "loading";
       state.error = null;
     },
-    getSurveyList(state, action) {
-      state.items = action.payload;
-      state.loading = false;
+    [fetchSurveyList.fulfilled]: (state, action) => {
+      state.data = action.payload;
+      state.status = "complete";
     },
-    errorOccurred(state, action) {
+    [fetchSurveyList.rejected]: (state, action) => {
       state.error = action.payload;
-      state.loading = false;
+      state.status = "failed";
     },
-    createSurvey(state, action) {
-      state.items.push(action.payload);
+    [createSurvey.fulfilled]: (state, action) => {
+      state.data.push(action.payload.survey);
     },
   },
 });
 
-export const {
-  startFetching,
-  getSurveyList,
-  errorOccurred,
-  createSurvey,
-} = slice.actions;
-
 export default slice.reducer;
-
-export const fetchSurveyList = () =>
-  apiCall({
-    url: "/survey",
-    onStart: startFetching.type,
-    onSuccess: [getSurveyList.type],
-    onError: [errorOccurred.type],
-  });
-
-export const createNewSurvey = (data, onStart, onSuccess, onError, onEnd) =>
-  apiCall({
-    url: "/survey",
-    method: "post",
-    data,
-    onStart,
-    onSuccess: [createSurvey.type, onSuccess],
-    onError: [onError],
-    onEnd,
-  });

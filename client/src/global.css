@@ -1,0 +1,25 @@
+a {
+  text-decoration: none;
+}
+.bb-gray {
+  border-bottom: 1px solid #dbdbdb;
+}
+.br-gray {
+  border-right: 1px solid #dbdbdb;
+}
+.pointer {
+  cursor: pointer;
+}
+.pt-100 {
+  padding-top: 100px;
+}
+.mt-2rem {
+  margin-top: 2rem;
+}
+
+.h-screen {
+  height: 100vh;
+}
+.hover-gray:hover {
+  background-color: #fafafa;
+}

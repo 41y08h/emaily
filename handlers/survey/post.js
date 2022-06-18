@@ -4,20 +4,17 @@ const surveyTemplate = require("../../templates/survey");
 
 /** Handler for creating a new survey */
 module.exports = async (req, res) => {
-  const { title, subject, body, recipients, isDraft } = req.body;
-
+  const { title, subject, body, recipients } = req.body;
+  return res.status(400).send("An error occurred!");
   const survey = new Survey({
     title,
     subject,
     body,
     recipients: recipients.split(",").map((email) => ({ email: email.trim() })),
     _user: req.user.id,
-    isDraft,
   });
 
   try {
-    if (survey.isDraft) return res.json(await survey.save());
-
     // Time to send emails
     const mailer = new Mailer(
       survey.recipients,
@@ -34,7 +31,7 @@ module.exports = async (req, res) => {
     const { credits } = await req.user.save();
 
     res.json({ survey: saved, credits });
-  } catch (err) {
-    res.status(422).json({ message: err.message });
+  } catch ({ message }) {
+    res.status(422).send(message);
   }
 };

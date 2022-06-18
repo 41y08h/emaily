@@ -1,9 +1,10 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import IndexPage from "../pages/Index";
 import Authorization from "./Authorization";
-import Dashboard from "../pages/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
+import Dashboard from "../pages/Dashboard";
 import SurveyNew from "../pages/SurveyNew";
 
 export default function Routes() {
@@ -15,6 +16,7 @@ export default function Routes() {
           <ProtectedRoute exact path="/dashboard" component={Dashboard} />
           <ProtectedRoute exact path="/dashboard/new" component={SurveyNew} />
         </Switch>
+        <ToastContainer />
       </Authorization>
     </BrowserRouter>
   );

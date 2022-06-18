@@ -4,9 +4,13 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./store";
 import Routes from "./components/Routes";
+
+// Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap-icons/font/fonts/bootstrap-icons.woff";
+import "react-toastify/dist/ReactToastify.css";
+import "./global.css";
 
 ReactDOM.render(
   <React.StrictMode>

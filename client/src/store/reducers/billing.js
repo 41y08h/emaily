@@ -1,12 +1,16 @@
-import apiCall from "../apiCall";
-import { updateCredits } from "./auth";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const stripePayment = (token) =>
-  apiCall({
-    url: "/billing/stripe",
-    method: "post",
-    data: token,
-    onSuccess: [updateCredits.type],
-  });
+const stripePayment = createAsyncThunk(
+  "billing/stripePayment",
+  async (token, thunkAPI) => {
+    try {
+      const res = await axios.post("/api/billing/stripe", token);
+      return res.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
 
 export default stripePayment;

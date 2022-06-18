@@ -1,17 +1,22 @@
 import React from "react";
-import Layout from "../components/Layout";
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
+import Header from "../components/Header";
 
 export default function Index() {
+  const { currentUser } = useSelector((state) => state.auth);
+  if (currentUser) return <Redirect to="/dashboard" />;
+
   return (
     <>
-      <Layout />
-      <div className="container d-flex flex-column">
+      <Header />
+      <div className="d-flex flex-column container pt-100">
         <img
           className="mx-auto mt-5 rounded mw-100"
-          src="https://source.unsplash.com/500x300/?network,globe"
+          src="https://source.unsplash.com/500x300/?network"
           alt="network"
         />
-        <h3 className="text-center mx-auto" style={{ marginTop: "2rem" }}>
+        <h3 className="text-center mx-auto mt-2rem">
           Collect Feedback From Your Users Blazing Fast
         </h3>
       </div>
